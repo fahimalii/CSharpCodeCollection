@@ -9,7 +9,8 @@ using Microsoft.Extensions.Logging;
 
 namespace AzureBlobStorageTriggerExplore.Function
 {
-    public class ExcelProcessor
+    // By Default Configuration is read from file local.settings.json
+    public class ExcelProcessorFunction
     {
         [FunctionName("ProcessExcel")]
         public void Run([BlobTrigger("dev/sample/{name}.xlsx", Connection = "AzureBlobConnection")]Stream myBlob, string name, ILogger logger)
