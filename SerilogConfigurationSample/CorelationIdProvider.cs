@@ -1,6 +1,6 @@
 ﻿namespace SerilogConfigurationSample;
 
-public sealed class CorelationIdProvider
+public record class CorelationIdProvider
 {
     public string CorelationId { get; }
 

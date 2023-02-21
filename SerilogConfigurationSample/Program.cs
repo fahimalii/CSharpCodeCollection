@@ -15,7 +15,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ISampleService, SampleService>();
 builder.Services.AddScoped<CorelationIdProvider>();
 
-
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 
