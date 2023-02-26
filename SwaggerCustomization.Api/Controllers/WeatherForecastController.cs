@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
+using SwaggerCustomization.Api.Attributes;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Text.Json.Serialization;
 
 namespace SwaggerCustomization.Api.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries = new[]
@@ -29,4 +32,22 @@ public class WeatherForecastController : ControllerBase
         })
         .ToArray();
     }
+
+    [HttpGet]
+    public IActionResult Test([FromHeader] Sample request)
+    {
+        return Ok(request);
+    }
+
+
+}
+
+public class Sample
+{
+    [FromHeader]
+    [SwaggerIgnore]
+    public string Name { get; set; }
+
+    [SwaggerIgnore]
+    public string Test123 { get; set; }
 }

@@ -39,6 +39,7 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 
+    c.SchemaFilter<SwaggerSkipPropertyFilter>();
     c.OperationFilter<AddRequiredHeaderParameter>();
 
     //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
