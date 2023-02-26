@@ -1,4 +1,4 @@
-# Exploring MongoDB with C#
+# Exploring MongoDB with CSharp
 
 Exploring Different features of MongoDB using C#
 
@@ -11,3 +11,9 @@ Exploring Different features of MongoDB using C#
 
 - Adding Authentication on MongoDB Cluster
 - Fixing issue in `mogodb-replica-set.yml`
+
+## Running Docker File
+
+- Change host value in `init.sh` from `<YOUR_HOST_MACHINE_IP_ADDRESS>`
+- Use `mongodb-recplica-set-with-initsh-file.yml` to run mongodb local cluster. Or use MongoDB atlas
+- Update `database connection string` in application before running
