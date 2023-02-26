@@ -1,0 +1,76 @@
+version: '3.9'
+services:
+  mongo1:
+    container_name: mongo1
+    hostname: mongo1
+    image: mongo:latest
+    expose:
+      - 27017
+    ports:
+      - 27021:27017
+    restart: always
+    # command: mongod --replSet my-mongo-set
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+    volumes:
+      - "G:/mongodb_cluster/mongo1/data:/data/db"
+      - "G:/mongodb_cluster/mongo1/log:/var/log/mongodb"
+  mongo2:
+    container_name: mongo2
+    hostname: mongo2
+    image: mongo:latest
+    expose:
+      - 27017
+    ports:
+      - 27022:27017
+    restart: always
+    # command: mongod --replSet my-mongo-set
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+    volumes:
+      - "G:/mongodb_cluster/mongo2/data:/data/db"
+      - "G:/mongodb_cluster/mongo2/log:/var/log/mongodb"
+  mongo3:
+    container_name: mongo3
+    hostname: mongo3
+    image: mongo:latest
+    expose:
+      - 27017
+    ports:
+      - 27023:27017
+    restart: always
+    # command: mongod --replSet my-mongo-set
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+    volumes:
+      - "G:/mongodb_cluster/mongo3/data:/data/db"
+      - "G:/mongodb_cluster/mongo3/log:/var/log/mongodb"
+      
+  # Initialization server which will run `rs.initiate` command to initialize the replica set and connect the three servers to each other
+  mongoinit:
+    image: mongo:latest
+    restart: "no" # this is one time run, so exit after the command is executed
+    depends_on:
+      - mongo1
+      - mongo2
+      - mongo3
+    # If for any reason it does not run, try running container once more after 1 min
+    command: >
+      mongosh --host mongo1:27017 --eval
+      '
+      config = {
+      "_id" : "rs0",
+      "members" : [
+        {
+          "_id" : 0,
+          "host" : "<YOUR_HOST_MACHINE_IP_ADDRESS>:27021"
+        },
+        {
+          "_id" : 1,
+          "host" : "<YOUR_HOST_MACHINE_IP_ADDRESS>:27022"
+        },
+        {
+          "_id" : 2,
+          "host" : "<YOUR_HOST_MACHINE_IP_ADDRESS>:27023"
+        }
+      ]
+      };
+      rs.initiate(config);
+      '
